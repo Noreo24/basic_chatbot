@@ -1,0 +1,32 @@
+-- 1. Tạo bảng người dùng
+CREATE TABLE `users` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `full_name` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(32) NOT NULL,
+  `hash_password` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone` (`phone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 2. Tạo bảng cuộc trò chuyện
+CREATE TABLE `conversations` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME(6) NOT NULL,
+  `user_id` BIGINT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `conversations_users_id_fk` (`user_id`),
+  CONSTRAINT `conversations_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 3. Tạo bảng tin nhắn
+CREATE TABLE `messages` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `question` LONGTEXT NOT NULL,
+  `answer` LONGTEXT NOT NULL,
+  `timestamp` DATETIME(6) NOT NULL,
+  `conversation_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `messages_conversations_id_fk` (`conversation_id`),
+  KEY `messages_timestamp_idx` (`timestamp`),
+  CONSTRAINT `messages_conversations_id_fk` FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

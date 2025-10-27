@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-mapper-3.0.dtd">
+<mapper namespace="com.chatbot.be.mapper.MessageMapper">
+
+    <insert id="insertMessage" parameterType="com.chatbot.be.model.Message">
+        INSERT INTO messages (question, answer, timestamp, conversation_id)
+        VALUES (#{question}, #{answer}, #{timestamp}, #{conversationId})
+    </insert>
+
+</mapper>
