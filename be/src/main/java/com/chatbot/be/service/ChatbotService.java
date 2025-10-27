@@ -36,7 +36,7 @@ public class ChatbotService {
                     m.setQuestion(message);
                     m.setAnswer(answer);
                     m.setTimestamp(LocalDateTime.now());
-                    m.setConversationId(20);
+                    m.setConversationId(1);
                     return m;
                 }) // persist bằng MyBatis (blocking) trên boundedElastic scheduler
                 .flatMap(m -> Mono.fromCallable(() -> {
