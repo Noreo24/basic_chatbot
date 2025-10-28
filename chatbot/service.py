@@ -145,14 +145,14 @@ def llm_stream():
                 except Exception:
                     pass
 
-            # stream tokens to client as SSE "data: <json>\n\n"
-            for ch in _stream_chunks_chars(answer):
+            # stream tokens (words) to client as SSE "data: <json>\n\n"
+            for token in _stream_chunks(answer):
                 if cancel_event.is_set():
                     yield f"data: {json.dumps({'request_id': request_id, 'cancelled': True})}\n\n"
                     return
-                payload_obj = {'request_id': request_id, 'chunk': ch}
+                payload_obj = {'request_id': request_id, 'chunk': token}
                 yield f"data: {json.dumps(payload_obj)}\n\n"
-                time.sleep(0.02)  # adjust to taste
+                time.sleep(0.05)  # pause between tokens to simulate streaming
 
             # completed
             yield f"data: {json.dumps({'request_id': request_id, 'done': True})}\n\n"
